@@ -198,14 +198,19 @@ function startTimer() {
 
   timerDisplay.textContent = timeRemaining;
 
+  // Start emergency sound immediately!
+  startEmergencySound('low');
+  warningMessage.classList.remove('hidden');
+
   timerInterval = setInterval(() => {
     timeRemaining--;
     timerDisplay.textContent = timeRemaining;
 
-    // Escalate sounds and warnings based on time
-    if (timeRemaining === 30) {
-      warningMessage.classList.remove('hidden');
+    // Escalate sound urgency as time decreases
+    if (timeRemaining === 45) {
       startEmergencySound('low');
+    } else if (timeRemaining === 30) {
+      startEmergencySound('high');
     } else if (timeRemaining === 15) {
       startEmergencySound('high');
     } else if (timeRemaining === 5) {

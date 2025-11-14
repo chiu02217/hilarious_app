@@ -49,11 +49,12 @@ npm start
 - Answer validation with lenient AI-powered checking
 - Progressive window resizing (starts at 400x300, grows by 15% per second)
 - Fullscreen kiosk mode when window maxes out (locks screen until answered)
+- **Window cannot be closed** - close button disabled, must answer riddle
 - **System logout** when time runs out or 2 seconds after fullscreen (platform-specific: macOS, Windows, Linux)
 - Wrong answers don't stop the pressure - timers and sounds continue
 - Always-on-top window to maintain urgency
 - 60-second countdown timer with visual warnings
-- Escalating emergency siren sounds using Web Audio API (3 urgency levels)
+- **Continuous emergency siren sounds** from start, escalating in urgency (low→high→critical)
 - Audio context auto-resume on user interaction (fixes autoplay policy issues)
 
 **API Integration:**

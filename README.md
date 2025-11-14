@@ -6,10 +6,11 @@ A fun Electron desktop application that challenges you with AI-generated riddles
 
 - AI-generated riddles powered by Claude Sonnet 4.5
 - 60-second countdown timer
+- **Window cannot be closed** - no escape until you answer correctly!
 - Window grows progressively if you don't answer (15% per second)
 - **Fullscreen kiosk mode** locks your screen when window reaches max size
 - **System logout** when time runs out or 2 seconds after fullscreen
-- **Escalating emergency sounds** at 30s, 15s, and 5s remaining
+- **Continuous emergency siren** from start, escalating in urgency throughout
 - **Wrong answers keep the pressure on** - no stopping until you get it right!
 - AI-powered answer validation with lenient checking
 - Beautiful gradient UI with shake animations
@@ -54,9 +55,11 @@ npm start
 
 **⚠️ SERIOUS WARNING:**
 - This app will **LOG YOU OUT of your computer** if you don't answer correctly in time
+- **Window CANNOT be closed** - close button is disabled!
+- **Emergency sounds play continuously** from the moment you start
 - Wrong answers don't help - the timer keeps running!
-- Only way to exit safely: answer the riddle correctly or force-quit the app (Cmd+Q on Mac, Alt+F4 on Windows)
-- Use at your own risk - save your work before running!
+- Only way to exit safely: answer the riddle correctly or **force-quit the app** (Cmd+Q on Mac, Alt+F4 on Windows, or kill the process)
+- Use at your own risk - **SAVE YOUR WORK BEFORE RUNNING!**
 
 ## Technology Stack
 

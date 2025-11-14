@@ -30,6 +30,12 @@ function createWindow() {
 
   // Center the window on screen
   mainWindow.center();
+
+  // Prevent window from being closed
+  mainWindow.on('close', (event) => {
+    event.preventDefault();
+    // Window cannot be closed - must answer the riddle!
+  });
 }
 
 app.whenReady().then(() => {
@@ -144,14 +150,14 @@ ipcMain.handle('logout-system', async () => {
   let command;
 
   if (process.platform === 'darwin') {
-    // macOS
-    command = 'osascript -e \'tell application "System Events" to log out\'';
+    // macOS - force immediate logout without confirmation
+    command = 'launchctl bootout user/$(id -u)';
   } else if (process.platform === 'win32') {
-    // Windows
-    command = 'shutdown /l';
+    // Windows - force immediate logout
+    command = 'shutdown /l /f';
   } else {
-    // Linux
-    command = 'gnome-session-quit --logout --no-prompt || loginctl terminate-user $USER';
+    // Linux - force immediate logout
+    command = 'loginctl terminate-user $USER || pkill -KILL -u $(whoami)';
   }
 
   exec(command, (error) => {
