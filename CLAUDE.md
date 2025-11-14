@@ -34,27 +34,31 @@ npm start
 - `renderer.js` - Renderer process managing UI state, timer, and window resizing logic
 
 **User Flow:**
-1. App launches and generates a riddle via Claude API
-2. User has 60 seconds to answer, with window starting to grow after 2 seconds
-3. Window increases by 15% every second until it reaches screen size
-4. When window reaches screen size, it enters fullscreen kiosk mode (locks the screen)
-5. After 2 seconds in fullscreen or when timer reaches 0, **system logs out**
-6. Emergency sounds escalate at 30s (low), 15s (high), and 5s (critical)
-7. User submits answer, which is validated by Claude API
-8. If **correct**: fullscreen exits, result shown, can restart
-9. If **incorrect**: warning shown, but timers/sounds/fullscreen continue (no mercy!)
+1. App launches and user sets up quiz with topic and number of questions
+2. **Global 30-minute timer** starts for the entire game (displayed as MM:SS)
+3. User answers questions with window starting to grow after 2 seconds
+4. Window increases by 15% every second until it reaches screen size
+5. When window reaches screen size, it enters fullscreen kiosk mode (locks the screen)
+6. After 2 seconds in fullscreen or when global timer reaches 0, **system logs out**
+7. Emergency sounds escalate at 10 min (low), 5 min (high), 1 min (high), 30s (critical), 10s (critical)
+8. User submits answer, which is validated by Claude API
+9. If **correct**: +1 second to global timer, window resets, next question loads
+10. If **incorrect**: -2 seconds from global timer, same question remains, window continues growing (no mercy!)
 
 **Key Features:**
-- Riddle generation using `claude-sonnet-4-5-20250929` model (Claude Sonnet 4.5)
+- Question generation using `claude-sonnet-4-5-20250929` model (Claude Sonnet 4.5)
 - Answer validation with lenient AI-powered checking
+- **Global 30-minute timer** for entire game session (not per question)
+- Timer adjustments: +1 second for correct answers, -2 seconds for wrong answers
 - Progressive window resizing (starts at 400x300, grows by 15% per second)
+- Window resets to normal size when correct answer is given
 - Fullscreen kiosk mode when window maxes out (locks screen until answered)
-- **Window cannot be closed** - close button disabled, must answer riddle
-- **System logout** when time runs out or 2 seconds after fullscreen (platform-specific: macOS, Windows, Linux)
-- Wrong answers don't stop the pressure - timers and sounds continue
+- **Window cannot be closed** - close button disabled, must answer questions
+- **System logout** when global timer runs out or 2 seconds after fullscreen (platform-specific: macOS, Windows, Linux)
+- Wrong answers don't stop the pressure - same question remains, timers and sounds continue
 - Always-on-top window to maintain urgency
-- 60-second countdown timer with visual warnings
-- **Continuous emergency siren sounds** from start, escalating in urgency (low→high→critical)
+- Prominent MM:SS timer display showing remaining time
+- **Continuous emergency siren sounds** from start, escalating in urgency at specific intervals (10min→5min→1min→30s→10s)
 - Audio context auto-resume on user interaction (fixes autoplay policy issues)
 
 **API Integration:**

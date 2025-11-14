@@ -153,5 +153,20 @@
     ],
     "model": "claude-3-5-haiku-20241022",
     "timestamp": "2025-11-14T20:30:25.559Z"
+  },
+  {
+    "id": 4,
+    "jokeType": "rizz",
+    "prompt": "Generate 1 rizz questions in multiple choice format. \n\nCRITICAL REQUIREMENTS:\n1. The question MUST include all choices on the SAME LINE like this: \"Question text? A) choice1 B) choice2 C) choice3 D) choice4\"\n2. ALL answer choices must be VERY SIMILAR and MISLEADING - make it hard to pick the right one!\n3. Use similar words, rhymes, or confusingly close options\n4. The correct answer should be short (1-2 words): a name, number, place, or phrase\n5. Make the wrong answers almost identical to make users second-guess\n\nReturn your response as a JSON array with this exact format:\n[\n  {\n    \"question\": \"Are you a magician? Because whenever I look at you, everyone else disappears. A) Heaven B) Paradise C) Nirvana D) Wonderland\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Heaven - Classic rizz line\"\n  }\n]\n\nExample of GOOD misleading choices:\n- \"What's 9 + 10? A) 19 B) 21 C) 910 D) Nineteen\"\n- \"Best time for dentist? A) 2:30 B) 2:03 C) Tooth-hurty D) 3:20\"\n- \"Capital of confusion? A) Your mind B) My mind C) Our minds D) Their mind\"\n\nMake the choices SO SIMILAR that users really have to think! Use wordplay, similar sounds, near-identical meanings, or trick variations.\n\nIMPORTANT: Return ONLY valid JSON, no other text or markdown. The question field must contain the COMPLETE question with all A/B/C/D choices on ONE line.",
+    "rawResponse": "[\n  {\n    \"question\": \"What's your ultimate rizz technique that guarantees a smooth pickup? A) Smooth Talk B) Slick Speech C) Charm Chat D) Flow Speak\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Smooth Talk - Direct and classic rizz approach\"\n  }\n]",
+    "questions": [
+      {
+        "question": "What's your ultimate rizz technique that guarantees a smooth pickup? A) Smooth Talk B) Slick Speech C) Charm Chat D) Flow Speak",
+        "correctAnswer": "A",
+        "explanation": "Smooth Talk - Direct and classic rizz approach"
+      }
+    ],
+    "model": "claude-3-5-haiku-20241022",
+    "timestamp": "2025-11-14T20:45:13.180Z"
   }
 ]

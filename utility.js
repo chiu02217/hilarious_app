@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 // CONFIGURATION
 // ============================================
 const RESPONSES_FILE = 'claude_responses.json';
-const ANTHROPIC_API_KEY = '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';
+const ANTHROPIC_API_KEY = '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';
 
 // ============================================
 // UTILITY FUNCTIONS

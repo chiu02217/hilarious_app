@@ -1,6 +1,6 @@
 // State
 let currentRiddle = '';
-let timeRemaining = 60;
+let globalTimeRemaining = 1800; // 30 minutes total for the entire game
 let timerInterval = null;
 let resizeInterval = null;
 let currentWidth = 400;
@@ -76,6 +76,9 @@ async function generateQuestions() {
     const result = await window.electronAPI.generateQuestions(topic, count);
 
     if (result.success) {
+      // Reset global timer for new game (30 minutes)
+      globalTimeRemaining = 1800;
+
       totalQuestions = result.totalQuestions;
       currentQuestionNum = 0;
       totalQuestionsDisplay.textContent = totalQuestions;
@@ -106,8 +109,7 @@ async function loadQuestion() {
       currentQuestionNum = result.currentIndex + 1;
       currentQuestionDisplay.textContent = currentQuestionNum;
 
-      // Reset state
-      timeRemaining = 60;
+      // Reset window size and state (but NOT the global timer!)
       currentWidth = 400;
       currentHeight = 300;
       isMaxed = false;
@@ -240,37 +242,52 @@ function stopEmergencySound() {
   }
 }
 
+// Format time as MM:SS
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
 // Start countdown timer
 function startTimer() {
   // Clear any existing intervals
   clearInterval(timerInterval);
   clearInterval(resizeInterval);
 
-  timerDisplay.textContent = timeRemaining;
+  // Update timer display
+  timerDisplay.textContent = formatTime(globalTimeRemaining);
 
   // Start emergency sound immediately!
   startEmergencySound('low');
   warningMessage.classList.remove('hidden');
 
   timerInterval = setInterval(() => {
-    timeRemaining--;
-    timerDisplay.textContent = timeRemaining;
+    globalTimeRemaining--;
+    timerDisplay.textContent = formatTime(globalTimeRemaining);
 
-    // Escalate sound urgency as time decreases
-    if (timeRemaining === 45) {
+    // Escalate sound urgency as time decreases (adjusted for 30-minute game)
+    if (globalTimeRemaining === 600) {
+      // 10 minutes remaining
       startEmergencySound('low');
-    } else if (timeRemaining === 30) {
+    } else if (globalTimeRemaining === 300) {
+      // 5 minutes remaining
       startEmergencySound('high');
-    } else if (timeRemaining === 15) {
+    } else if (globalTimeRemaining === 60) {
+      // 1 minute remaining
       startEmergencySound('high');
-    } else if (timeRemaining === 5) {
+    } else if (globalTimeRemaining === 30) {
+      // 30 seconds remaining
+      startEmergencySound('critical');
+    } else if (globalTimeRemaining === 10) {
+      // 10 seconds remaining
       startEmergencySound('critical');
     }
 
-    if (timeRemaining <= 0) {
+    if (globalTimeRemaining <= 0) {
       clearInterval(timerInterval);
-      timerDisplay.textContent = '0';
-      // Logout the system when time runs out
+      timerDisplay.textContent = '0:00';
+      // Logout the system when global time runs out
       window.electronAPI.logoutSystem();
     }
   }, 1000);
@@ -336,13 +353,17 @@ async function submitAnswer() {
 
     if (result.success) {
       if (result.isCorrect) {
+        // CORRECT ANSWER: Add 1 second to global timer!
+        globalTimeRemaining += 1;
+        timerDisplay.textContent = formatTime(globalTimeRemaining);
+
         // Stop timers and show response notification
         stopTimers();
 
         // Show success notification with response
         const successMsg = document.createElement('div');
         successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; z-index: 10000; max-width: 80%; text-align: center;';
-        successMsg.textContent = '✓ Correct! ' + result.response;
+        successMsg.textContent = '✓ Correct! +1 second | ' + result.response;
         document.body.appendChild(successMsg);
 
         setTimeout(() => {
@@ -355,6 +376,18 @@ async function submitAnswer() {
           }
         }, 3000);
       } else {
+        // WRONG ANSWER: Subtract 2 seconds from global timer!
+        globalTimeRemaining -= 2;
+        timerDisplay.textContent = formatTime(globalTimeRemaining);
+
+        // Check if time ran out due to penalty
+        if (globalTimeRemaining <= 0) {
+          clearInterval(timerInterval);
+          timerDisplay.textContent = '0:00';
+          window.electronAPI.logoutSystem();
+          return;
+        }
+
         // If wrong, show error message with response but keep the pressure on!
         answerInput.value = '';
         submitBtn.disabled = false;
@@ -363,7 +396,7 @@ async function submitAnswer() {
         // Show temporary error message with response
         const errorMsg = document.createElement('div');
         errorMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #f44336; color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; z-index: 10000; animation: shake 0.5s; max-width: 80%; text-align: center;';
-        errorMsg.textContent = '❌ Wrong! ' + result.response;
+        errorMsg.textContent = '❌ Wrong! -2 seconds | ' + result.response;
         document.body.appendChild(errorMsg);
 
         setTimeout(() => {
