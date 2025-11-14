@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Scheduler</title>
+</head>
+<body>
+    <h1>Quiz Scheduler Running...</h1>
+    <p>Waiting for next popup...</p>
+    <button onclick="triggerNow()">Trigger Popup Now (Testing)</button>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        function triggerNow() {
+            ipcRenderer.send('trigger-popup-now');
+        }
+    </script>
+</body>
+</html>

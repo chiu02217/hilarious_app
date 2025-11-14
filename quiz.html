@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Answer the Question!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            transition: background 0.3s ease;
+        }
+
+        #content.morphing {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        #timer {
+            font-size: 48px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        #question {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 500px;
+            color: #2c3e50;
+        }
+
+        #answer-input {
+            width: 400px;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #submit-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #submit-btn:hover {
+            background: #2980b9;
+        }
+
+        #warning {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #e74c3c;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #warning.visible {
+            opacity: 1;
+        }
+
+        .locked-message {
+            display: none;
+            font-size: 32px;
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .locked-message.visible {
+            display: block;
+        }
+
+        .escape-hint {
+            display: none;
+            font-size: 18px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .escape-hint.visible {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="content">
+        <div id="timer">30</div>
+        <div id="question">Loading question...</div>
+        <input type="text" id="answer-input" placeholder="Type your answer here..." />
+        <button id="submit-btn">Submit Answer</button>
+        <div id="warning">Hurry! Time is running out!</div>
+        <div class="locked-message">TIME'S UP! You are now locked in Obama mode.</div>
+        <div class="escape-hint">Press ESC to escape from Obama's grasp...</div>
+    </div>
+
+    <script src="quiz.js"></script>
+</body>
+</html>
