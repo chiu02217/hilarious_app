@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 // ============================================
 // CONFIGURATION - EDIT THESE VALUES
 // ============================================
-const ANTHROPIC_API_KEY = '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';
+const ANTHROPIC_API_KEY = '';
 const RESPONSES_FILE = 'claude_responses.json';
 
 // Global variable for joke type
