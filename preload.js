@@ -6,5 +6,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   resizeWindow: (width, height) => ipcRenderer.invoke('resize-window', width, height),
   getScreenSize: () => ipcRenderer.invoke('get-screen-size'),
   exitFullscreen: () => ipcRenderer.invoke('exit-fullscreen'),
-  logoutSystem: () => ipcRenderer.invoke('logout-system')
+  logoutSystem: () => ipcRenderer.invoke('logout-system'),
+  generateQuestions: (topic, count) => ipcRenderer.invoke('generate-questions', topic, count),
+  getCurrentQuestion: () => ipcRenderer.invoke('get-current-question'),
+  checkAnswer: (answer) => ipcRenderer.invoke('check-answer', answer)
 });

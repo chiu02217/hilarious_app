@@ -1,0 +1,157 @@
+[
+  {
+    "id": 1,
+    "jokeType": "programming",
+    "prompt": "Generate 10 programming questions in multiple choice format. \n\nCRITICAL REQUIREMENTS:\n1. The question MUST include all choices on the SAME LINE like this: \"Question text? A) choice1 B) choice2 C) choice3 D) choice4\"\n2. ALL answer choices must be VERY SIMILAR and MISLEADING - make it hard to pick the right one!\n3. Use similar words, rhymes, or confusingly close options\n4. The correct answer should be short (1-2 words): a name, number, place, or phrase\n5. Make the wrong answers almost identical to make users second-guess\n\nReturn your response as a JSON array with this exact format:\n[\n  {\n    \"question\": \"Are you a magician? Because whenever I look at you, everyone else disappears. A) Heaven B) Paradise C) Nirvana D) Wonderland\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Heaven - Classic rizz line\"\n  }\n]\n\nExample of GOOD misleading choices:\n- \"What's 9 + 10? A) 19 B) 21 C) 910 D) Nineteen\"\n- \"Best time for dentist? A) 2:30 B) 2:03 C) Tooth-hurty D) 3:20\"\n- \"Capital of confusion? A) Your mind B) My mind C) Our minds D) Their mind\"\n\nMake the choices SO SIMILAR that users really have to think! Use wordplay, similar sounds, near-identical meanings, or trick variations.\n\nIMPORTANT: Return ONLY valid JSON, no other text or markdown. The question field must contain the COMPLETE question with all A/B/C/D choices on ONE line.",
+    "rawResponse": "[\n  {\n    \"question\": \"In Python, what keyword is used to define a function? A) func B) define C) def D) function\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"def is the correct keyword in Python for defining functions\"\n  },\n  {\n    \"question\": \"Which data structure uses Last-In-First-Out (LIFO) order? A) Queue B) Stack C) Heap D) Array\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Stack follows the Last-In-First-Out principle\"\n  },\n  {\n    \"question\": \"What does CSS stand for? A) Computer Style Sheets B) Creative Style Syntax C) Cascading Style Sheets D) Coded Style System\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"Cascading Style Sheets is the full form of CSS\"\n  },\n  {\n    \"question\": \"Which programming language was created by Guido van Rossum? A) Java B) C++ C) JavaScript D) Python\",\n    \"correctAnswer\": \"D\",\n    \"explanation\": \"Python was created by Guido van Rossum\"\n  },\n  {\n    \"question\": \"What is the primary purpose of a firewall? A) Cooking B) Network Security C) Building Material D) Computer Hardware\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Network Security is the main purpose of a firewall\"\n  },\n  {\n    \"question\": \"Which HTML tag is used for the largest heading? A) <head> B) <header> C) <h1> D) <heading>\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"<h1> creates the largest heading in HTML\"\n  },\n  {\n    \"question\": \"What does API stand for? A) Advanced Programming Interface B) Application Programming Interface C) Automated Program Integration D) Active Protocol Interface\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Application Programming Interface is the full form of API\"\n  },\n  {\n    \"question\": \"Which sorting algorithm has O(n log n) time complexity? A) Bubble Sort B) Quick Sort C) Linear Sort D) Simple Sort\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Quick Sort has O(n log n) time complexity\"\n  },\n  {\n    \"question\": \"What is the primary use of Git? A) Text Editing B) Version Control C) Web Browsing D) Image Processing\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Version Control is the primary use of Git\"\n  },\n  {\n    \"question\": \"Which programming paradigm focuses on objects? A) Procedural B) Functional C) Object-Oriented D) Structural\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"Object-Oriented programming focuses on creating objects\"\n  }\n]",
+    "questions": [
+      {
+        "question": "In Python, what keyword is used to define a function? A) func B) define C) def D) function",
+        "correctAnswer": "C",
+        "explanation": "def is the correct keyword in Python for defining functions"
+      },
+      {
+        "question": "Which data structure uses Last-In-First-Out (LIFO) order? A) Queue B) Stack C) Heap D) Array",
+        "correctAnswer": "B",
+        "explanation": "Stack follows the Last-In-First-Out principle"
+      },
+      {
+        "question": "What does CSS stand for? A) Computer Style Sheets B) Creative Style Syntax C) Cascading Style Sheets D) Coded Style System",
+        "correctAnswer": "C",
+        "explanation": "Cascading Style Sheets is the full form of CSS"
+      },
+      {
+        "question": "Which programming language was created by Guido van Rossum? A) Java B) C++ C) JavaScript D) Python",
+        "correctAnswer": "D",
+        "explanation": "Python was created by Guido van Rossum"
+      },
+      {
+        "question": "What is the primary purpose of a firewall? A) Cooking B) Network Security C) Building Material D) Computer Hardware",
+        "correctAnswer": "B",
+        "explanation": "Network Security is the main purpose of a firewall"
+      },
+      {
+        "question": "Which HTML tag is used for the largest heading? A) <head> B) <header> C) <h1> D) <heading>",
+        "correctAnswer": "C",
+        "explanation": "<h1> creates the largest heading in HTML"
+      },
+      {
+        "question": "What does API stand for? A) Advanced Programming Interface B) Application Programming Interface C) Automated Program Integration D) Active Protocol Interface",
+        "correctAnswer": "B",
+        "explanation": "Application Programming Interface is the full form of API"
+      },
+      {
+        "question": "Which sorting algorithm has O(n log n) time complexity? A) Bubble Sort B) Quick Sort C) Linear Sort D) Simple Sort",
+        "correctAnswer": "B",
+        "explanation": "Quick Sort has O(n log n) time complexity"
+      },
+      {
+        "question": "What is the primary use of Git? A) Text Editing B) Version Control C) Web Browsing D) Image Processing",
+        "correctAnswer": "B",
+        "explanation": "Version Control is the primary use of Git"
+      },
+      {
+        "question": "Which programming paradigm focuses on objects? A) Procedural B) Functional C) Object-Oriented D) Structural",
+        "correctAnswer": "C",
+        "explanation": "Object-Oriented programming focuses on creating objects"
+      }
+    ],
+    "model": "claude-3-5-haiku-20241022",
+    "timestamp": "2025-11-14T20:18:10.603Z"
+  },
+  {
+    "id": 2,
+    "jokeType": "rizz",
+    "prompt": "Generate 10 rizz questions in multiple choice format. \n\nCRITICAL REQUIREMENTS:\n1. The question MUST include all choices on the SAME LINE like this: \"Question text? A) choice1 B) choice2 C) choice3 D) choice4\"\n2. ALL answer choices must be VERY SIMILAR and MISLEADING - make it hard to pick the right one!\n3. Use similar words, rhymes, or confusingly close options\n4. The correct answer should be short (1-2 words): a name, number, place, or phrase\n5. Make the wrong answers almost identical to make users second-guess\n\nReturn your response as a JSON array with this exact format:\n[\n  {\n    \"question\": \"Are you a magician? Because whenever I look at you, everyone else disappears. A) Heaven B) Paradise C) Nirvana D) Wonderland\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Heaven - Classic rizz line\"\n  }\n]\n\nExample of GOOD misleading choices:\n- \"What's 9 + 10? A) 19 B) 21 C) 910 D) Nineteen\"\n- \"Best time for dentist? A) 2:30 B) 2:03 C) Tooth-hurty D) 3:20\"\n- \"Capital of confusion? A) Your mind B) My mind C) Our minds D) Their mind\"\n\nMake the choices SO SIMILAR that users really have to think! Use wordplay, similar sounds, near-identical meanings, or trick variations.\n\nIMPORTANT: Return ONLY valid JSON, no other text or markdown. The question field must contain the COMPLETE question with all A/B/C/D choices on ONE line.",
+    "rawResponse": "[\n  {\n    \"question\": \"What's the smoothest pickup line you've got? A) You're looking fine B) You look divine C) You seem sublime D) You're quite refined\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"You look divine - Perfect rizz compliment with subtle charm\"\n  },\n  {\n    \"question\": \"Best way to start a conversation? A) Hey there B) Hi friend C) Sup stranger D) Yo human\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Hey there - Classic, direct, and simple opener\"\n  },\n  {\n    \"question\": \"Ultimate rizz technique involves? A) Confidence B) Smoothness C) Swagger D) Charisma\",\n    \"correctAnswer\": \"D\",\n    \"explanation\": \"Charisma - The core of true attraction and connection\"\n  },\n  {\n    \"question\": \"What makes someone attractive instantly? A) Smile B) Energy C) Vibe D) Presence\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"Vibe - Captures the intangible magnetic quality\"\n  },\n  {\n    \"question\": \"Rizz is mostly about? A) Looks B) Words C) Timing D) Approach\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Words - Communication is key in attraction\"\n  },\n  {\n    \"question\": \"Best compliment style? A) Direct B) Subtle C) Clever D) Genuine\",\n    \"correctAnswer\": \"D\",\n    \"explanation\": \"Genuine - Authenticity trumps everything else\"\n  },\n  {\n    \"question\": \"Flirting is fundamentally about? A) Connection B) Attention C) Interest D) Chemistry\",\n    \"correctAnswer\": \"D\",\n    \"explanation\": \"Chemistry - The underlying spark of attraction\"\n  },\n  {\n    \"question\": \"Most important rizz quality? A) Humor B) Confidence C) Authenticity D) Charm\",\n    \"correctAnswer\": \"B\",\n    \"explanation\": \"Confidence - The foundation of true attraction\"\n  },\n  {\n    \"question\": \"What creates real attraction? A) Appearance B) Personality C) Status D) Conversation\",\n    \"correctAnswer\": \"D\",\n    \"explanation\": \"Conversation - True connection happens through dialogue\"\n  },\n  {\n    \"question\": \"Ultimate rizz move is? A) Listening B) Talking C) Joking D) Connecting\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Listening - Shows genuine interest and emotional intelligence\"\n  }\n]",
+    "questions": [
+      {
+        "question": "What's the smoothest pickup line you've got? A) You're looking fine B) You look divine C) You seem sublime D) You're quite refined",
+        "correctAnswer": "B",
+        "explanation": "You look divine - Perfect rizz compliment with subtle charm"
+      },
+      {
+        "question": "Best way to start a conversation? A) Hey there B) Hi friend C) Sup stranger D) Yo human",
+        "correctAnswer": "A",
+        "explanation": "Hey there - Classic, direct, and simple opener"
+      },
+      {
+        "question": "Ultimate rizz technique involves? A) Confidence B) Smoothness C) Swagger D) Charisma",
+        "correctAnswer": "D",
+        "explanation": "Charisma - The core of true attraction and connection"
+      },
+      {
+        "question": "What makes someone attractive instantly? A) Smile B) Energy C) Vibe D) Presence",
+        "correctAnswer": "C",
+        "explanation": "Vibe - Captures the intangible magnetic quality"
+      },
+      {
+        "question": "Rizz is mostly about? A) Looks B) Words C) Timing D) Approach",
+        "correctAnswer": "B",
+        "explanation": "Words - Communication is key in attraction"
+      },
+      {
+        "question": "Best compliment style? A) Direct B) Subtle C) Clever D) Genuine",
+        "correctAnswer": "D",
+        "explanation": "Genuine - Authenticity trumps everything else"
+      },
+      {
+        "question": "Flirting is fundamentally about? A) Connection B) Attention C) Interest D) Chemistry",
+        "correctAnswer": "D",
+        "explanation": "Chemistry - The underlying spark of attraction"
+      },
+      {
+        "question": "Most important rizz quality? A) Humor B) Confidence C) Authenticity D) Charm",
+        "correctAnswer": "B",
+        "explanation": "Confidence - The foundation of true attraction"
+      },
+      {
+        "question": "What creates real attraction? A) Appearance B) Personality C) Status D) Conversation",
+        "correctAnswer": "D",
+        "explanation": "Conversation - True connection happens through dialogue"
+      },
+      {
+        "question": "Ultimate rizz move is? A) Listening B) Talking C) Joking D) Connecting",
+        "correctAnswer": "A",
+        "explanation": "Listening - Shows genuine interest and emotional intelligence"
+      }
+    ],
+    "model": "claude-3-5-haiku-20241022",
+    "timestamp": "2025-11-14T20:18:36.528Z"
+  },
+  {
+    "id": 3,
+    "jokeType": "rizz",
+    "prompt": "Generate 5 rizz questions in multiple choice format. \n\nCRITICAL REQUIREMENTS:\n1. The question MUST include all choices on the SAME LINE like this: \"Question text? A) choice1 B) choice2 C) choice3 D) choice4\"\n2. ALL answer choices must be VERY SIMILAR and MISLEADING - make it hard to pick the right one!\n3. Use similar words, rhymes, or confusingly close options\n4. The correct answer should be short (1-2 words): a name, number, place, or phrase\n5. Make the wrong answers almost identical to make users second-guess\n\nReturn your response as a JSON array with this exact format:\n[\n  {\n    \"question\": \"Are you a magician? Because whenever I look at you, everyone else disappears. A) Heaven B) Paradise C) Nirvana D) Wonderland\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Heaven - Classic rizz line\"\n  }\n]\n\nExample of GOOD misleading choices:\n- \"What's 9 + 10? A) 19 B) 21 C) 910 D) Nineteen\"\n- \"Best time for dentist? A) 2:30 B) 2:03 C) Tooth-hurty D) 3:20\"\n- \"Capital of confusion? A) Your mind B) My mind C) Our minds D) Their mind\"\n\nMake the choices SO SIMILAR that users really have to think! Use wordplay, similar sounds, near-identical meanings, or trick variations.\n\nIMPORTANT: Return ONLY valid JSON, no other text or markdown. The question field must contain the COMPLETE question with all A/B/C/D choices on ONE line.",
+    "rawResponse": "[\n  {\n    \"question\": \"What's the ultimate rizz move? A) Smooth talk B) Smooth walk C) Smooth chalk D) Smooth stalk\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Smooth talk - classic rizz technique\"\n  },\n  {\n    \"question\": \"Best pickup line opener? A) Hello sweet B) Yellow meet C) Mellow greet D) Fellow treat\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"Mellow greet - subtle and charming approach\"\n  },\n  {\n    \"question\": \"Rizz is about? A) Confidence B) Confidance C) Confidense D) Confidenz\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Confidence - key to true rizz\"\n  },\n  {\n    \"question\": \"True rizz masters use? A) Word play B) Word sway C) Word way D) Word pray\",\n    \"correctAnswer\": \"C\",\n    \"explanation\": \"Word way - strategic communication technique\"\n  },\n  {\n    \"question\": \"Rizz requires? A) Quick wit B) Quick split C) Quick fit D) Quick hit\",\n    \"correctAnswer\": \"A\",\n    \"explanation\": \"Quick wit - essential for smooth interactions\"\n  }\n]",
+    "questions": [
+      {
+        "question": "What's the ultimate rizz move? A) Smooth talk B) Smooth walk C) Smooth chalk D) Smooth stalk",
+        "correctAnswer": "A",
+        "explanation": "Smooth talk - classic rizz technique"
+      },
+      {
+        "question": "Best pickup line opener? A) Hello sweet B) Yellow meet C) Mellow greet D) Fellow treat",
+        "correctAnswer": "C",
+        "explanation": "Mellow greet - subtle and charming approach"
+      },
+      {
+        "question": "Rizz is about? A) Confidence B) Confidance C) Confidense D) Confidenz",
+        "correctAnswer": "A",
+        "explanation": "Confidence - key to true rizz"
+      },
+      {
+        "question": "True rizz masters use? A) Word play B) Word sway C) Word way D) Word pray",
+        "correctAnswer": "C",
+        "explanation": "Word way - strategic communication technique"
+      },
+      {
+        "question": "Rizz requires? A) Quick wit B) Quick split C) Quick fit D) Quick hit",
+        "correctAnswer": "A",
+        "explanation": "Quick wit - essential for smooth interactions"
+      }
+    ],
+    "model": "claude-3-5-haiku-20241022",
+    "timestamp": "2025-11-14T20:30:25.559Z"
+  }
+]

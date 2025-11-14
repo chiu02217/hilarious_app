@@ -3,10 +3,15 @@ const path = require('path');
 const { exec } = require('child_process');
 require('dotenv').config();
 const Anthropic = require('@anthropic-ai/sdk');
+const { regenerateQuestions, getQuestionsByEntryId } = require('./utility.js');
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+// Quiz state
+let currentQuestions = [];
+let currentQuestionIndex = 0;
 
 let mainWindow;
 const INITIAL_WIDTH = 400;
@@ -169,4 +174,74 @@ ipcMain.handle('logout-system', async () => {
   });
 
   return { success: true };
+});
+
+// Generate questions for a topic
+ipcMain.handle('generate-questions', async (event, topic, count) => {
+  try {
+    console.log(`Generating ${count} questions for topic: ${topic}`);
+    const entry = await regenerateQuestions(topic, count);
+
+    // Store the questions for this session
+    currentQuestions = entry.questions;
+    currentQuestionIndex = 0;
+
+    return {
+      success: true,
+      entryId: entry.id,
+      totalQuestions: currentQuestions.length
+    };
+  } catch (error) {
+    console.error('Error generating questions:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+// Get current question
+ipcMain.handle('get-current-question', async () => {
+  try {
+    if (currentQuestionIndex >= currentQuestions.length) {
+      return { success: false, error: 'No more questions' };
+    }
+
+    const question = currentQuestions[currentQuestionIndex];
+    return {
+      success: true,
+      question: question.question,
+      correctAnswer: question.correctAnswer,
+      explanation: question.explanation,
+      currentIndex: currentQuestionIndex,
+      totalQuestions: currentQuestions.length
+    };
+  } catch (error) {
+    console.error('Error getting question:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+// Check answer and get response
+ipcMain.handle('check-answer', async (event, userAnswer) => {
+  try {
+    if (currentQuestionIndex >= currentQuestions.length) {
+      return { success: false, error: 'No active question' };
+    }
+
+    const question = currentQuestions[currentQuestionIndex];
+    const isCorrect = question.correctAnswer.toUpperCase() === userAnswer.toUpperCase();
+
+    // Move to next question only if correct
+    if (isCorrect) {
+      currentQuestionIndex++;
+    }
+
+    return {
+      success: true,
+      isCorrect,
+      response: question.explanation,
+      hasMoreQuestions: currentQuestionIndex < currentQuestions.length
+    };
+  } catch (error) {
+    console.error('Error checking answer:', error);
+    return { success: false, error: error.message };
+  }
 });

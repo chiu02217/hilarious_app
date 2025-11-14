@@ -8,6 +8,8 @@ let currentHeight = 300;
 let screenWidth = 0;
 let screenHeight = 0;
 let isMaxed = false;
+let totalQuestions = 0;
+let currentQuestionNum = 0;
 
 // Audio context for emergency sounds
 let audioContext = null;
@@ -16,13 +18,19 @@ let sirenGain = null;
 let sirenInterval = null;
 
 // DOM Elements
+const topicScreen = document.getElementById('topic-screen');
 const loadingScreen = document.getElementById('loading-screen');
 const riddleScreen = document.getElementById('riddle-screen');
 const resultScreen = document.getElementById('result-screen');
+const topicInput = document.getElementById('topic-input');
+const countInput = document.getElementById('count-input');
+const generateBtn = document.getElementById('generate-btn');
 const riddleText = document.getElementById('riddle-text');
 const answerInput = document.getElementById('answer-input');
 const submitBtn = document.getElementById('submit-btn');
 const timerDisplay = document.getElementById('timer-display');
+const currentQuestionDisplay = document.getElementById('current-question');
+const totalQuestionsDisplay = document.getElementById('total-questions');
 const warningMessage = document.getElementById('warning-message');
 const resultTitle = document.getElementById('result-title');
 const resultMessage = document.getElementById('result-message');
@@ -43,23 +51,60 @@ async function init() {
     }
   }, { once: true });
 
-  // Load riddle
-  await loadRiddle();
+  // Show topic selection screen
+  showScreen('topic');
 }
 
-// Load a new riddle
-async function loadRiddle() {
+// Generate questions based on topic and count
+async function generateQuestions() {
+  const topic = topicInput.value.trim();
+  const count = parseInt(countInput.value);
+
+  if (!topic) {
+    alert('Please enter a topic!');
+    return;
+  }
+
+  if (count < 1 || count > 20) {
+    alert('Please enter a number between 1 and 20!');
+    return;
+  }
+
   showScreen('loading');
 
+  try {
+    const result = await window.electronAPI.generateQuestions(topic, count);
+
+    if (result.success) {
+      totalQuestions = result.totalQuestions;
+      currentQuestionNum = 0;
+      totalQuestionsDisplay.textContent = totalQuestions;
+
+      // Load first question
+      await loadQuestion();
+    } else {
+      alert('Failed to generate questions: ' + result.error);
+      showScreen('topic');
+    }
+  } catch (error) {
+    alert('Error generating questions: ' + error.message);
+    showScreen('topic');
+  }
+}
+
+// Load current question
+async function loadQuestion() {
   // Exit fullscreen/kiosk mode if active
   await window.electronAPI.exitFullscreen();
 
   try {
-    const result = await window.electronAPI.generateRiddle();
+    const result = await window.electronAPI.getCurrentQuestion();
 
     if (result.success) {
-      currentRiddle = result.riddle;
+      currentRiddle = result.question;
       riddleText.textContent = currentRiddle;
+      currentQuestionNum = result.currentIndex + 1;
+      currentQuestionDisplay.textContent = currentQuestionNum;
 
       // Reset state
       timeRemaining = 60;
@@ -74,20 +119,25 @@ async function loadRiddle() {
       showScreen('riddle');
       startTimer();
     } else {
-      alert('Failed to load riddle: ' + result.error);
+      // No more questions
+      showFinalResult();
     }
   } catch (error) {
-    alert('Error loading riddle: ' + error.message);
+    alert('Error loading question: ' + error.message);
   }
 }
 
 // Show specific screen
 function showScreen(screen) {
+  topicScreen.classList.add('hidden');
   loadingScreen.classList.add('hidden');
   riddleScreen.classList.add('hidden');
   resultScreen.classList.add('hidden');
 
-  if (screen === 'loading') {
+  if (screen === 'topic') {
+    topicScreen.classList.remove('hidden');
+    topicInput.focus();
+  } else if (screen === 'loading') {
     loadingScreen.classList.remove('hidden');
   } else if (screen === 'riddle') {
     riddleScreen.classList.remove('hidden');
@@ -282,23 +332,38 @@ async function submitAnswer() {
   submitBtn.textContent = 'Checking...';
 
   try {
-    const result = await window.electronAPI.validateAnswer(currentRiddle, answer);
+    const result = await window.electronAPI.checkAnswer(answer);
 
     if (result.success) {
       if (result.isCorrect) {
-        // Only stop timers if correct
+        // Stop timers and show response notification
         stopTimers();
-        showResult(true, result.explanation);
+
+        // Show success notification with response
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; z-index: 10000; max-width: 80%; text-align: center;';
+        successMsg.textContent = '✓ Correct! ' + result.response;
+        document.body.appendChild(successMsg);
+
+        setTimeout(() => {
+          successMsg.remove();
+          // Load next question or show final result
+          if (result.hasMoreQuestions) {
+            loadQuestion();
+          } else {
+            showFinalResult();
+          }
+        }, 3000);
       } else {
-        // If wrong, show error message but keep the pressure on!
+        // If wrong, show error message with response but keep the pressure on!
         answerInput.value = '';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Answer';
 
-        // Show temporary error message
+        // Show temporary error message with response
         const errorMsg = document.createElement('div');
-        errorMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #f44336; color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; z-index: 10000; animation: shake 0.5s;';
-        errorMsg.textContent = '❌ Wrong! ' + result.explanation;
+        errorMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #f44336; color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; z-index: 10000; animation: shake 0.5s; max-width: 80%; text-align: center;';
+        errorMsg.textContent = '❌ Wrong! ' + result.response;
         document.body.appendChild(errorMsg);
 
         setTimeout(() => {
@@ -308,7 +373,7 @@ async function submitAnswer() {
         answerInput.focus();
       }
     } else {
-      alert('Error validating answer: ' + result.error);
+      alert('Error checking answer: ' + result.error);
       submitBtn.disabled = false;
       submitBtn.textContent = 'Submit Answer';
     }
@@ -319,14 +384,14 @@ async function submitAnswer() {
   }
 }
 
-// Show result
-async function showResult(isCorrect, explanation) {
+// Show final result after all questions
+async function showFinalResult() {
   // Exit fullscreen/kiosk mode
   await window.electronAPI.exitFullscreen();
 
-  resultTitle.textContent = isCorrect ? '🎉 Correct!' : '❌ Incorrect';
-  resultTitle.className = isCorrect ? 'correct' : 'incorrect';
-  resultMessage.textContent = explanation;
+  resultTitle.textContent = '🎉 Quiz Complete!';
+  resultTitle.className = 'correct';
+  resultMessage.textContent = `You've completed all ${totalQuestions} questions! Great job!`;
 
   showScreen('result');
 
@@ -336,6 +401,20 @@ async function showResult(isCorrect, explanation) {
 }
 
 // Event listeners
+generateBtn.addEventListener('click', generateQuestions);
+
+topicInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    generateQuestions();
+  }
+});
+
+countInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    generateQuestions();
+  }
+});
+
 submitBtn.addEventListener('click', submitAnswer);
 
 answerInput.addEventListener('keypress', (e) => {
@@ -345,7 +424,7 @@ answerInput.addEventListener('keypress', (e) => {
 });
 
 restartBtn.addEventListener('click', () => {
-  loadRiddle();
+  showScreen('topic');
 });
 
 // Start the app

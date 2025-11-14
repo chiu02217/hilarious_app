@@ -7,7 +7,12 @@
     "start": "electron .",
     "dev": "electron . --dev"
   },
-  "keywords": ["electron", "joke", "riddle", "claude"],
+  "keywords": [
+    "electron",
+    "joke",
+    "riddle",
+    "claude"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -15,6 +20,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "e": "^0.2.33"
   }
 }
